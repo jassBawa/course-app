@@ -2,14 +2,14 @@
 
 import React, { useState } from 'react';
 import AdminCourse from './AdminCourse';
-import { type CourseProps } from './Course';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogTrigger, DialogContent } from '@/components/ui/dialog';
 import CreateCourseModalContent from '../admin/CreateCourseModal';
 import { IMAGES } from './CourseContainer';
+import { CourseType } from '@/lib/actions/types';
 
 interface CourseContainerProps {
-  courses: CourseProps[];
+  courses: CourseType[];
 }
 
 export default function AdminCourseContainer({

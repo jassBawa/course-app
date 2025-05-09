@@ -1,9 +1,10 @@
-import Course, { type CourseProps } from './Course';
+import { CourseType } from '@/lib/actions/types';
+import Course from './Course';
 
 interface CourseContainerProps {
   title?: string;
   description?: string;
-  courses: CourseProps[];
+  courses: CourseType[];
 }
 export const IMAGES = [
   '/images/course-1.png',

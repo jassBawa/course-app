@@ -1,3 +1,67 @@
+# 🎥 Serverless Video Streaming Platform
+
+This project is a scalable, serverless video streaming platform designed to manage courses, upload and transcode videos, and stream them using HLS (HTTP Live Streaming). It leverages AWS services such as Lambda, DynamoDB, S3, SQS, ECS (Fargate), and Cognito.
+
+---
+
+## 🚀 Features
+
+- **Admin Panel** to create courses and upload videos
+- **Secure Presigned Upload** to S3 via Lambda
+- **Automatic Video Transcoding** to HLS in multiple resolutions
+- **Efficient Video Metadata Management** using DynamoDB
+- **Playback Support** using HLS-compatible players
+- **Fully Serverless & Scalable** using AWS-managed services
+
+---
+
+## 🛠️ Tech Stack
+
+| Layer        | Technology                           |
+|--------------|---------------------------------------|
+| Frontend     | (To be built using React/Next.js)     |
+| Backend API  | AWS Lambda (Node.js), API Gateway     |
+| Authentication | AWS Cognito (with group-based auth) |
+| Storage      | Amazon S3                             |
+| Transcoding  | ECS Fargate + FFmpeg + Node.js        |
+| Queue        | Amazon SQS                            |
+| Database     | Amazon DynamoDB                       |
+| Infrastructure | IAM Roles, Policies, S3 Triggers    |
+
+---
+
+# Cognito configuration
+NEXT_PUBLIC_COGNITO_AUTHORITY=https://<your-cognito-domain>.auth.<region>.amazoncognito.com/oauth2
+NEXT_PUBLIC_COGNITO_CLIENT_ID=your_cognito_app_client_id
+NEXT_PUBLIC_COGNITO_REDIRECT_URI=http://localhost:3000
+NEXT_PUBLIC_COGNITO_SCOPE=openid profile email
+NEXT_PUBLIC_COGNITO_DOMAIN=<your-cognito-domain>.auth.<region>.amazoncognito.com
+
+# Backend API Gateway endpoint
+API_ENDPOINT=https://<your-api-id>.execute-api.<region>.amazonaws.com/prod
+
+## 📦 AWS Architecture Overview
+
+```plaintext
+[ Admin Panel (Frontend) ]
+         |
+         ↓
+[ API Gateway + Lambda (create-course, create-video, get-courses, get-course-videos) ]
+         |
+         ├──> DynamoDB (Courses, Videos Table)
+         └──> S3 (Presigned URL Upload to tempvideosbucket)
+                                  ↓
+                S3 Event Trigger on object upload
+                                  ↓
+                      SQS Queue (video-processing-queue)
+                                  ↓
+              ECS Fargate Task (Transcoding with FFmpeg)
+                                  ↓
+     Transcoded output → S3 (transcodedvideos.jasscodes.com)
+                                  ↓
+       Update DynamoDB with playback URL + resolutions
+
+
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
 ## Getting Started

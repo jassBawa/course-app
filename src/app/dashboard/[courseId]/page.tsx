@@ -1,6 +1,6 @@
 import { Button } from '@/components/ui/button';
 import { VideoContainer } from '@/components/videos';
-import { fetchAllCourseVideos } from '@/lib/actions/publicActions';
+import { fetchAllCourseVideos } from '@/lib/actions/UserActions';
 import Link from 'next/link';
 
 export default async function VideoPage({
@@ -24,7 +24,7 @@ export default async function VideoPage({
   }
 
   return (
-    <div className="container mx-auto py-8">
+    <div className="container mx-auto py-8 px-4">
       <div className="mb-8">
         <div className="flex items-center gap-2 mb-4">
           <Button variant="outline" size="sm" asChild>

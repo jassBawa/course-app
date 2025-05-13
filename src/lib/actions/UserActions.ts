@@ -114,7 +114,6 @@ export async function getUserCourses(): Promise<GetUserCoursesResponse> {
     }
 
     const data = await res.json();
-    console.log('data', data);
 
     return {
       data: { courses: data.courses },

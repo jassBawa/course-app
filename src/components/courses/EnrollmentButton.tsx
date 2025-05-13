@@ -7,6 +7,7 @@ import { LockKeyhole } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { toast } from 'sonner';
 import { setCourseEnrollment } from '@/lib/actions/UserActions';
+import { useAuth } from 'react-oidc-context';
 
 interface EnrollButtonProps {
   courseId: string;
@@ -21,38 +22,34 @@ export default function EnrollButton({
 }: EnrollButtonProps) {
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
-  console.log(isEnrolled);
+  const auth = useAuth();
 
   const handleEnroll = async () => {
     if (!isLoggedIn) {
-      router.push(`/login?redirect=/course/${courseId}`);
+      auth.signinRedirect().catch((error) => {
+        console.error('Sign-in error:', error);
+      });
       return;
     }
 
     setIsLoading(true);
-    try {
-      // Here you would implement the enrollment API call
-      const { error } = await setCourseEnrollment(courseId);
 
-      // Simulate API call
-      if (error) {
-        toast.error(error);
-        return;
-      }
+    // Here you would implement the enrollment API call
+    const { error, data } = await setCourseEnrollment(courseId);
 
+    // Simulate API call
+    if (error) {
+      toast.error(error);
+      return;
+    }
+
+    if (data?.message) {
       toast('Successfully enrolled!', {
         description: 'You now have access to all course materials.',
       });
-      router.refresh();
-    } catch (error) {
-      console.log(error);
-      toast.error('Enrollment failed', {
-        description:
-          'There was an error enrolling in this course. Please try again.',
-      });
-    } finally {
-      setIsLoading(false);
     }
+    router.refresh();
+    setIsLoading(false);
   };
 
   const handleContinueLearning = () => {

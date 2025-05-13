@@ -10,9 +10,7 @@ import { useEffect } from 'react';
 export default function Navbar() {
   const auth = useAuth();
 
-  // Handle auth state changes and ensure consistent behavior
   useEffect(() => {
-    // Check for authentication errors
     if (auth.error) {
       console.error('Auth error:', auth.error);
     }
@@ -74,7 +72,7 @@ export default function Navbar() {
                 <Button
                   onClick={handleSignOut}
                   variant="outline"
-                  className="text-sm"
+                  className="hidden md:block text-sm"
                 >
                   Sign out
                 </Button>

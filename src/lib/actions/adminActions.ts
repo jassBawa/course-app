@@ -30,7 +30,6 @@ export async function createCourse({
     revalidateTag('courses');
     const data = await res.json();
     const { message, courseId } = data;
-    console.log(data);
 
     return {
       data: { message, courseId },
@@ -72,7 +71,6 @@ export async function createCourseVideo(
     }
 
     const data = await res.json();
-    console.log(data);
     const { uploadUrl, key } = data;
 
     return {

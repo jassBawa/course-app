@@ -45,7 +45,8 @@ export default function CourseContainer({
               <Course
                 key={index}
                 {...course}
-                image={IMAGES[index % IMAGES.length]}
+                image={course.image}
+                // image={IMAGES[index % IMAGES.length]}
                 href={`/course/${course.courseId}`}
                 ctaHref={cta?.href}
                 ctaLabel={cta?.label}

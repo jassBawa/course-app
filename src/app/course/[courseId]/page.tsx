@@ -111,7 +111,7 @@ export default async function CoursePage({
 
         {/* Course Card - Right Side */}
         <div>
-          <Card className="sticky top-8 overflow-hidden">
+          <Card className="sticky top-8 overflow-hidden pt-0">
             <div className="relative aspect-video rounded-t-lg overflow-hidden hidden lg:block">
               <Image
                 src={course?.image || '/placeholder.svg?height=720&width=1280'}

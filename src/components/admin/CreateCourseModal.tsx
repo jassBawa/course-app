@@ -39,7 +39,7 @@ export default function CreateCourseModalContent({
         setDescription('');
       }
     } catch (err) {
-      console.log(err);
+      console.error(err);
       toast.error('Failed to create course');
     } finally {
       setIsSubmitting(false);

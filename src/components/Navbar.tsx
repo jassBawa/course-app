@@ -63,7 +63,7 @@ export default function Navbar() {
               <LoaderCircle className="w-5 h-5 animate-spin text-muted-foreground" />
             ) : auth.isAuthenticated ? (
               <>
-                <Link href="/admin">
+                <Link href="/dashboard">
                   <Button
                     variant="default"
                     className="text-sm text-white transition-colors bg-indigo-700 hover:bg-indigo-500"

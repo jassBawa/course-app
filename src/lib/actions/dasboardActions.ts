@@ -4,6 +4,7 @@ import { API_ENDPOINTS } from '@/config/constants';
 import { unmarshall } from '@aws-sdk/util-dynamodb';
 import { revalidateTag } from 'next/cache';
 import { cookies } from 'next/headers';
+import { fetchWithAuth } from '../fetchWithAuth';
 
 type FetchCoursesResponse = {
   data: { courses: CourseType[] } | null;
@@ -50,6 +51,41 @@ export async function fetchAllCourses(): Promise<FetchCoursesResponse> {
   }
 }
 
+type FetchCourseResponse = {
+  data: { course: CourseType } | null;
+  error: string | null;
+  status: number;
+};
+
+export async function fetchCourse(
+  courseId: string
+): Promise<FetchCourseResponse> {
+  try {
+    const res = await fetch(
+      `${API_ENDPOINTS.BASE_URL}/get-course?courseId=${courseId}`
+    );
+
+    if (!res.ok) {
+      throw new Error(`Upstream API error with status ${res.status}`);
+    }
+
+    const data = await res.json();
+
+    return {
+      data: { course: data },
+      error: null,
+      status: 200,
+    };
+  } catch (error) {
+    console.error('Error in fetchallvideos:', error);
+    return {
+      data: null,
+      error: 'Internal server error',
+      status: 500,
+    };
+  }
+}
+
 type FetchVideosResponse = {
   data: { videos: VideoType[] } | null;
   error: string | null;
@@ -60,19 +96,34 @@ export async function fetchAllCourseVideos(
   courseId: string
 ): Promise<FetchVideosResponse> {
   try {
-    const res = await fetch(
+    const res = await fetchWithAuth(
       `${API_ENDPOINTS.BASE_URL}/get-videos?courseId=${courseId}`
     );
 
     if (!res.ok) {
-      throw new Error(`Upstream API error with status ${res.status}`);
+      const data = await res.json();
+
+      return {
+        data: null,
+        error: data.error,
+        status: res.status,
+      };
     }
 
+    // Ensure valid JSON
     const data = await res.json();
 
-    const rawVideos = Array.isArray(data.videos) ? data.videos : [];
+    if (!data || !Array.isArray(data.videos)) {
+      return {
+        data: null,
+        error: 'Invalid data format received from API',
+        status: 500,
+      };
+    }
 
-    const videos: VideoType[] = rawVideos.map((item: any) => unmarshall(item));
+    const videos: VideoType[] = data.videos.map((item: any) =>
+      unmarshall(item)
+    );
 
     return {
       data: { videos },

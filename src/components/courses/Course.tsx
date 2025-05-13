@@ -12,21 +12,25 @@ import Image from 'next/image';
 import Link from 'next/link';
 
 export interface CourseProps {
-  courseId: string;
   title: string;
   description: string;
   image: string;
   level?: 'Beginner' | 'Intermediate' | 'Advanced';
   tags?: string[];
+  href: string; // Default fallback
+  ctaHref?: string; // Optional override
+  ctaLabel?: string; // Optional override
 }
 
 export default function Course({
-  courseId,
   title,
   description,
   image,
   level = 'Beginner',
   tags = ['html', 'css', 'js'],
+  href,
+  ctaHref,
+  ctaLabel,
 }: CourseProps) {
   return (
     <Card className="overflow-hidden h-full flex flex-col shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1 hover:scale-[1.015] bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 pt-0">
@@ -67,7 +71,7 @@ export default function Course({
           asChild
           className="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-medium text-sm transition-colors"
         >
-          <Link href={`/course/${courseId}`}>View Course</Link>
+          <Link href={ctaHref || href}>{ctaLabel || 'View Course'}</Link>
         </Button>
       </CardFooter>
     </Card>

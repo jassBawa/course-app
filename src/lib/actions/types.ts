@@ -3,6 +3,7 @@ export interface CourseType {
   title: string;
   description: string;
   createdAt: string;
+  image: string;
 }
 
 export interface VideoResolution {

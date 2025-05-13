@@ -1,8 +1,7 @@
-import AdminVideoContaner from '@/components/admin/AdminVideoContaner';
 import { Button } from '@/components/ui/button';
+import { VideoContainer } from '@/components/videos';
 import { fetchAllCourseVideos } from '@/lib/actions/dasboardActions';
 import Link from 'next/link';
-import { notFound } from 'next/navigation';
 
 export default async function VideoPage({
   params,
@@ -11,11 +10,17 @@ export default async function VideoPage({
 }) {
   const { courseId } = await params;
 
-  const { data, error, status } = await fetchAllCourseVideos(courseId);
-  console.log(data, error, status);
+  const { data, error } = await fetchAllCourseVideos(courseId);
 
-  if (!data || error) {
-    return notFound();
+  if (error || !data) {
+    return (
+      <div className="flex flex-col items-center justify-center h-full space-y-4">
+        <h3 className="text-2xl font-semibold text-red-500">{error}</h3>
+        <Button asChild>
+          <Link href="/dashboard">Go Back to Dashboard</Link>
+        </Button>
+      </div>
+    );
   }
 
   return (
@@ -23,11 +28,12 @@ export default async function VideoPage({
       <div className="mb-8">
         <div className="flex items-center gap-2 mb-4">
           <Button variant="outline" size="sm" asChild>
-            <Link href={`/admin`}>Back to dashboard</Link>
+            <Link href={`/dashboard`}>Back to Dashboard</Link>
           </Button>
         </div>
         <h1 className="text-3xl font-bold mb-2">Course Videos</h1>
-        <AdminVideoContaner videos={data.videos} courseId={courseId} />
+
+        <VideoContainer videos={data.videos} />
       </div>
     </div>
   );

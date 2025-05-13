@@ -1,12 +1,25 @@
+import Link from 'next/link';
 import React from 'react';
 
 function Page() {
   return (
-    <div>
-      <div className="min-h-screen flex flex-col items-center justify-center bg-gray-50 dark:bg-gray-900 text-center px-4">
-        <h1 className="text-2xl font-semibold text-red-600 mb-2">
-          Something went wrong
-        </h1>
+    <div className="flex flex-col items-center justify-center h-screen px-4">
+      <div className="text-center space-y-8">
+        <div className="space-y-4">
+          <h1 className="text-4xl font-bold text-gray-900">Page Not Found</h1>
+          <p className="text-lg text-gray-600">
+            The link you followed may be broken, or the page may have been
+            removed.
+          </p>
+        </div>
+
+        <Link
+          href="/"
+          className="inline-block px-6 py-3 text-sm font-medium text-white transition bg-gray-900 rounded-full hover:bg-gray-800"
+          prefetch={false}
+        >
+          Return Home
+        </Link>
       </div>
     </div>
   );

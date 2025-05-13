@@ -5,6 +5,7 @@ interface CourseContainerProps {
   title?: string;
   description?: string;
   courses: CourseType[];
+  getCta?: (course: CourseType) => { href: string; label?: string };
 }
 export const IMAGES = [
   '/images/course-1.png',
@@ -16,6 +17,7 @@ export default function CourseContainer({
   title = 'Our Courses',
   description = 'Browse our selection of courses designed to help you grow your skills.',
   courses = [],
+  getCta,
 }: CourseContainerProps) {
   return (
     <section className="container px-4 py-12 mx-auto">
@@ -36,13 +38,20 @@ export default function CourseContainer({
         </div>
       ) : (
         <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
-          {courses.map((course, index) => (
-            <Course
-              key={index}
-              {...course}
-              image={IMAGES[index % IMAGES.length]}
-            />
-          ))}
+          {courses.map((course, index) => {
+            const cta = getCta?.(course);
+
+            return (
+              <Course
+                key={index}
+                {...course}
+                image={IMAGES[index % IMAGES.length]}
+                href={`/course/${course.courseId}`}
+                ctaHref={cta?.href}
+                ctaLabel={cta?.label}
+              />
+            );
+          })}
         </div>
       )}
     </section>

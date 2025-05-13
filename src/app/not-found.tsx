@@ -6,8 +6,10 @@ function Page() {
     <div className="flex flex-col items-center justify-center h-screen px-4">
       <div className="text-center space-y-8">
         <div className="space-y-4">
-          <h1 className="text-4xl font-bold text-gray-900">Page Not Found</h1>
-          <p className="text-lg text-gray-600">
+          <h1 className="text-4xl font-bold text-gray-900 dark:text-gray-200">
+            Page Not Found
+          </h1>
+          <p className="text-lg text-gray-600 dark:text-gray-300">
             The link you followed may be broken, or the page may have been
             removed.
           </p>

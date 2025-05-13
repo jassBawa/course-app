@@ -1,6 +1,6 @@
 import AdminVideoContaner from '@/components/admin/AdminVideoContaner';
 import { Button } from '@/components/ui/button';
-import { fetchAllCourseVideos } from '@/lib/actions/dasboardActions';
+import { getAdminCourseVideos } from '@/lib/actions/adminActions';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 
@@ -11,8 +11,7 @@ export default async function VideoPage({
 }) {
   const { courseId } = await params;
 
-  const { data, error, status } = await fetchAllCourseVideos(courseId);
-  console.log(data, error, status);
+  const { data, error } = await getAdminCourseVideos(courseId);
 
   if (!data || error) {
     return notFound();

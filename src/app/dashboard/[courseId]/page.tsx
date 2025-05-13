@@ -1,6 +1,6 @@
 import { Button } from '@/components/ui/button';
 import { VideoContainer } from '@/components/videos';
-import { fetchAllCourseVideos } from '@/lib/actions/dasboardActions';
+import { fetchAllCourseVideos } from '@/lib/actions/publicActions';
 import Link from 'next/link';
 
 export default async function VideoPage({

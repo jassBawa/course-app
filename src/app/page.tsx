@@ -1,20 +1,12 @@
 import { CourseContainer } from '@/components/courses';
-import { fetchAllCourses } from '@/lib/actions/dasboardActions';
+import { fetchAllCourses } from '@/lib/actions/publicActions';
+import { notFound } from 'next/navigation';
 
 export default async function Home() {
   const { data, error } = await fetchAllCourses();
 
   if (!data || error) {
-    return (
-      <div className="flex flex-col items-center justify-center min-h-screen px-4 text-center bg-gradient-to-b from-red-50 to-red-100 dark:from-red-900 dark:to-red-950">
-        <h1 className="mb-2 text-3xl font-semibold text-red-700 dark:text-red-400">
-          Something went wrong
-        </h1>
-        <p className="max-w-md text-base text-red-800 dark:text-red-300">
-          {error || 'Unable to fetch courses. Please try again later.'}
-        </p>
-      </div>
-    );
+    return notFound();
   }
 
   const { courses } = data;

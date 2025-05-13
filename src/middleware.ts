@@ -18,7 +18,6 @@ export function middleware(req: NextRequest) {
       const payload = JSON.parse(
         Buffer.from(token.split('.')[1], 'base64').toString()
       );
-      console.log('payload', payload);
 
       const groups = payload['cognito:groups'] || [];
 

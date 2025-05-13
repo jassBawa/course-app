@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Progress } from '@/components/ui/progress';
-import { createCourseVideo } from '@/lib/actions/dasboardActions';
+import { createCourseVideo } from '@/lib/actions/adminActions';
 import { AlertCircle, Info, Upload } from 'lucide-react';
 import React, { useCallback, useRef, useState } from 'react';
 import { toast } from 'sonner';

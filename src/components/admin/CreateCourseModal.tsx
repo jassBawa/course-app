@@ -11,7 +11,7 @@ import {
   DialogTitle,
   DialogDescription,
 } from '@/components/ui/dialog';
-import { createCourse } from '@/lib/actions/dasboardActions';
+import { createCourse } from '@/lib/actions/adminActions';
 
 export default function CreateCourseModalContent({
   onClose,

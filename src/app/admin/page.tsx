@@ -1,5 +1,5 @@
 import AdminCourseContainer from '@/components/courses/AdminCourseContainer';
-import { fetchAllCourses } from '@/lib/actions/dasboardActions';
+import { fetchAllCourses } from '@/lib/actions/publicActions';
 
 export default async function Home() {
   const { data, error } = await fetchAllCourses();

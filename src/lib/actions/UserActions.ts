@@ -1,7 +1,8 @@
 'use server';
 import { API_ENDPOINTS } from '@/config/constants';
 import { fetchWithAuth } from '../fetchWithAuth';
-import { CourseType } from './types';
+import { unmarshall } from '@aws-sdk/util-dynamodb';
+import { CourseType, VideoType } from './types';
 
 type GetUserEnrollmentResponse = {
   data: { enrolled: boolean } | null;
@@ -117,6 +118,60 @@ export async function getUserCourses(): Promise<GetUserCoursesResponse> {
 
     return {
       data: { courses: data.courses },
+      error: null,
+      status: 200,
+    };
+  } catch (error) {
+    console.error('Error in fetchallvideos:', error);
+    return {
+      data: null,
+      error: 'Internal server error',
+      status: 500,
+    };
+  }
+}
+
+type FetchVideosResponse = {
+  data: { videos: VideoType[] } | null;
+  error: string | null;
+  status: number;
+};
+
+export async function fetchAllCourseVideos(
+  courseId: string
+): Promise<FetchVideosResponse> {
+  try {
+    const res = await fetchWithAuth(
+      `${API_ENDPOINTS.BASE_URL}/get-videos?courseId=${courseId}`
+    );
+
+    if (!res.ok) {
+      const data = await res.json();
+
+      return {
+        data: null,
+        error: data.error,
+        status: res.status,
+      };
+    }
+
+    // Ensure valid JSON
+    const data = await res.json();
+
+    if (!data || !Array.isArray(data.videos)) {
+      return {
+        data: null,
+        error: 'Invalid data format received from API',
+        status: 500,
+      };
+    }
+
+    const videos: VideoType[] = data.videos.map((item: any) =>
+      unmarshall(item)
+    );
+
+    return {
+      data: { videos },
       error: null,
       status: 200,
     };

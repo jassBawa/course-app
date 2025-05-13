@@ -8,7 +8,7 @@ import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
 import EnrollButton from '@/components/courses/EnrollmentButton';
-import { fetchCourse } from '@/lib/actions/dasboardActions';
+import { fetchCourse } from '@/lib/actions/publicActions';
 import { getUserEnrollment } from '@/lib/actions/UserActions';
 
 export default async function CoursePage({
